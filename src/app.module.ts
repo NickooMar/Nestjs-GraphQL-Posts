@@ -4,14 +4,12 @@ import { AppService } from './app.service';
 import { PostsService } from './posts/posts.service';
 import { PostsModule } from './posts/posts.module';
 
-import { TypeOrmModule } from '@nestjs/typeorm';
 import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
+import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { join } from 'path';
-
-
-
+import { AuthorsModule } from './authors/authors.module';
 
 @Module({
   imports: [
@@ -22,13 +20,13 @@ import { join } from 'path';
     TypeOrmModule.forRoot({
       type: 'sqlite',
       database: 'database.sqlite',
-      entities: [__dirname + '/**/*.entity{.ts,.js}']
+      entities: [__dirname + '/**/*.entity{.ts,.js}'],
+      synchronize: true
     }),
     PostsModule,
-
-
+    AuthorsModule,
   ],
   controllers: [AppController],
-  providers: [AppService, PostsService, ],
+  providers: [AppService],
 })
 export class AppModule {}
